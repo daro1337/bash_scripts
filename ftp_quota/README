@@ -1,0 +1,18 @@
+### Script that check quota on FTP [if supported].
+### written by Dariusz Adamczyk
+require:
+    *FTP must have "site quota" option
+    *ncftp3
+      		zabbix_sender [can be turned off]
+
+#  FRONTEND
+	1. create host in frontend  to monitor ftp.
+	2. zbxhost MUST be equal to host "Host name" in frontend
+	3. create item like:
+		Name: FTP disk check
+		Type: Zabbix trapper
+		Key:  ftpusage
+	4. crete Trigger
+		Name:		DUPLICITY: LOW FTP DISK SPACE
+		Expression:	{host1:ftpusage.last()}=2
+		Severity:	Warning

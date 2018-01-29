@@ -1,0 +1,27 @@
+# Script for checking  outdated timemachine backup on synology NAS.
+# Default check is every 2hours if u want more check, compare crontab to zabbix template.
+# e.g for 2hours check in zabbix template set backup:timemachine_outdated.0.nodata(7300)}=0  (73000 =2h)
+# for 1 hour set 3600 and so on.
+
+#WHAT to do:
+
+#Synology:
+
+1. Allow ssh connection to your  Synology NAS
+2. Create new user for backup check like "bckcheck" and grant him Administrator rights or create new group 
+'ssh' and from CLI allow this group for ssh connection. If u dont know linux system and CLI, just log in as 
+Admin to avoid destroing your Synology.
+3. Turn on "home directory for users" on your synology NAS.
+
+#zabbix server
+
+4. create ssh-keys for zabbix user on zabbix server from link below:
+https://www.zabbix.com/documentation/2.0/manual/config/items/itemtypes/ssh_checks 
+5.  check and remove "#" location of external scripts in zabbix_server.conf e.g 
+"ExternalScripts=/usr/lib/zabbix/externalscripts"
+6. deploy in this directory script tmcheck.sh
+7. set crontab (crontab -e)
+"0       */2     *       *       *       zabbix /usr/lib/zabbix/externalscripts/./tmcheck.sh"
+8. import template  to zabbix frontend.
+9. if you dont want to wait, make first check manually by typing on zabbix server:
+"sudo -H -u zabbix bash -c '/usr/lib/zabbix/externalscripts/./tmcheck.sh'"
