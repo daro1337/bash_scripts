@@ -5,9 +5,14 @@
 #        netmask 255.255.255.255
 #auto eth0:1
 
+if [[ $# -eq 0 ]] ; then
+    echo 'Enter path to file as a argument'
+    exit 0
+fi
+
 i=1
 
-cat iplist2.txt |while read line;
+while read line;
 do
 	echo " "
 	echo "iface eth0:$i inet static";
@@ -15,5 +20,5 @@ do
 	echo "        netmask 255.255.255.255";
 	echo "auto eth0:$i";
 	((i++))
-done
+done < $1
 
