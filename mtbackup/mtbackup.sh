@@ -66,12 +66,12 @@ if [[ $output ==  *ERROR* ]]; then
 	echo -e "\n$output\n" |mail  -a "Content-type: text/html;" -s 
 "MT backups: PROBLEM" $email;
 	#stop cleaning
-	mv *.rsc /backup/mikrotik-backup/;
+	mv *.rsc $bckdir;
 
 else
 	 echo -e "\n$output\n" |mail -a "Content-type: text/html;" -s 
 "MT backups: OK" $email;
 	# cleaning...
-	mv *.rsc /backup/mikrotik-backup/;
-	find /backup/mikrotik-backup/*.rsc -type f -mmin +8320 -delete;
+	mv *.rsc $bckdir;
+	find $bckdir*.rsc -type f -mmin +8320 -delete;
 fi
